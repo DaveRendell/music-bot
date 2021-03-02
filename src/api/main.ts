@@ -2,15 +2,24 @@ import * as express from "express"
 
 const api = express()
 const port = 3000
+const Discord = require('discord.js')
+const client = new Discord.Client()
+const { token } = require('../../token.json')
+
 
 api.get("/sendTestMessage", (req, res) => {
-  // TODO: Make this send a test message to Discord.
+  const channel = client.channels.cache.get('676831672230084608')
+  channel.send("Test message pls ignore")
   console.log("Button pressed")
   
   // Return empty response
   res.status(204).send()
 })
 
-api.listen(port, () => {
-  console.log(`API running on port ${port}`)
+client.once('ready', () => {
+	api.listen(port, () => {
+    console.log(`API & Discord running on port ${port}`)
+  })
 })
+
+client.login(token)
