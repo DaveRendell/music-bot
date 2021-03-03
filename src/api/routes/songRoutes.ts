@@ -18,13 +18,14 @@ router.get("/:id", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const song = JSON.parse(req.body) as Create<Song>
+    console.log(req.body)
+    const song = req.body as Create<Song>
     const result = await db.addSong(song)
     res.status(201).send(JSON.stringify(result))
 })
 
 router.put("/:id", async (req, res) => {
-    const edit = { id: req.params["id"], ...JSON.parse(req.body) } as Edit<Song>
+    const edit = { id: req.params["id"], ...req.body } as Edit<Song>
     const result = await db.updateSong(edit)
     res.send(JSON.stringify(result))
 })
