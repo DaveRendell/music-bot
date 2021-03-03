@@ -1,9 +1,8 @@
 import Song from "../../common/models/song";
 import { readState, writeState } from "./db"
 import * as uuid from "uuid"
-
-type CreateSong = Omit<Song, "id">
-type EditSong = Partial<Song> & { id: string }
+import Create from "../../common/types/create";
+import Edit from "../../common/types/edit";
 
 export async function listSongs(): Promise<Song[]> {
     const state = await readState()
@@ -15,7 +14,7 @@ export async function getSong(id: string): Promise<Song> {
     return state.songs.find(song => song.id === id)
 }
 
-export async function addSong(song: CreateSong): Promise<Song> {
+export async function addSong(song: Create<Song>): Promise<Song> {
     const state = await readState()
     
     const id = uuid.v4()
@@ -26,7 +25,7 @@ export async function addSong(song: CreateSong): Promise<Song> {
     return newSong
 }
 
-export async function updateSong(song: EditSong): Promise<Song> {
+export async function updateSong(song: Edit<Song>): Promise<Song> {
     const state = await readState()
     const index = state.songs.findIndex(song => song.id === song.id)
     if (index == -1) {
