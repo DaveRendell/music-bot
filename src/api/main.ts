@@ -1,4 +1,5 @@
 import * as express from "express"
+import songRoutes from "./routes/songRoutes"
 
 const api = express()
 const port = 3000
@@ -15,6 +16,8 @@ api.get("/sendTestMessage", (req, res) => {
   // Return empty response
   res.status(204).send()
 })
+
+api.use("/songs", songRoutes)
 
 client.once('ready', () => {
 	api.listen(port, () => {
