@@ -9,7 +9,7 @@ type SongListItemProps = {
 export default function SongListItem({ song }: SongListItemProps) {
   return (
     <li>
-      {song.name}: {song.url} <Link to={`edit/${song.id}`}>Edit</Link>
+      <Link to={`/${song.id}`}>{song.name}</Link> <Link to={`edit/${song.id}`}>Edit</Link>
     </li>
   )
 }

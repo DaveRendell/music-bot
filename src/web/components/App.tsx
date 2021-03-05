@@ -9,6 +9,7 @@ import { sendTestMessage } from "../api/testMethod"
 import AddSong from "./AddSong"
 import HomePage from "./HomePage"
 import EditSong from "./EditSong"
+import ViewSong from "./ViewSong"
 
 export default function App() {
   return (
@@ -19,6 +20,9 @@ export default function App() {
         </Route>
         <Route path="/edit/:id">
           <EditSong />
+        </Route>
+        <Route path="/:id">
+          <ViewSong />
         </Route>
         <Route path="/" exact>
           <Link to="/new">Add song</Link>
