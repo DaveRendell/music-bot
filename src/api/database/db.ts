@@ -9,5 +9,8 @@ export async function readState(): Promise<State> {
 }
 
 export async function writeState(state: State): Promise<void> {
-    return fs.writeFile(DB_FILE, JSON.stringify(state), "utf8")
+    const stateAsJson = (process.env.NODE_ENV === "production")
+        ? JSON.stringify(state)
+        : JSON.stringify(state, null, 2)
+    return fs.writeFile(DB_FILE, stateAsJson, "utf8")
 }

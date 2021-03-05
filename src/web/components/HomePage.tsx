@@ -1,7 +1,7 @@
-import { Speaking } from "discord.js"
 import * as React from "react"
 import Song from "../../common/models/song"
 import { listSongs } from "../api/songs"
+import SongListItem from "./SongListItem"
 
 export default function HomePage() {
     const [loaded, setLoaded] = React.useState<boolean>(false)
@@ -16,9 +16,7 @@ export default function HomePage() {
     if (loaded) {
         return <ul>
             {songs.map((song, idx) => (
-                <li key={idx}>
-                    {song.name}: {song.url}
-                </li>
+                <SongListItem key={idx} song={song} />
             ))}
         </ul>
     } else {

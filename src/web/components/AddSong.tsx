@@ -1,10 +1,10 @@
 import * as React from "react"
 import { Redirect } from "react-router-dom"
 import { addSong } from "../api/songs"
+import Song from "../../common/models/song"
+import SongForm from "./SongForm"
 
 export default function AddSong() {
-    const [name, setName] = React.useState<string>()
-    const [url, setUrl] = React.useState<string>()
     const [submitted, setSubmitted] = React.useState<boolean>(false)
     const [finished, setFinished] = React.useState<boolean>(false)
 
@@ -12,28 +12,13 @@ export default function AddSong() {
         return <Redirect to="/"/>
     }
 
-    async function submitForm(event: React.SyntheticEvent) {
-        event.preventDefault()
+    async function onSubmit(song: Omit<Song, "id">) {
         setSubmitted(true)
-        await addSong({name, url})
+        await addSong(song)
         setFinished(true)
     }
 
     return (
-        <form onSubmit={submitForm}>
-            <label>Name</label>
-            <input
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-            />
-            <label>YouTube URL</label>
-            <input
-                type="text"
-                value={url}
-                onChange={e => setUrl(e.target.value)}
-            />
-            <input type="submit" value="Add" />
-        </form>
+        <SongForm onSubmit={onSubmit} buttonPrompt="Add" />
     )
 }

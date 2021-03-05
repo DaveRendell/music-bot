@@ -8,6 +8,7 @@ import {
 import { sendTestMessage } from "../api/testMethod"
 import AddSong from "./AddSong"
 import HomePage from "./HomePage"
+import EditSong from "./EditSong"
 
 export default function App() {
   return (
@@ -15,6 +16,9 @@ export default function App() {
       <Switch>
         <Route path="/new">
           <AddSong />
+        </Route>
+        <Route path="/edit/:id">
+          <EditSong />
         </Route>
         <Route path="/" exact>
           <Link to="/new">Add song</Link>
