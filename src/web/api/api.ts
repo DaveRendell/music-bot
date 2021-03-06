@@ -35,5 +35,5 @@ export async function put(path: string, body: any) {
 
 export async function del(path: string) {
     const response = await fetch(API_BASE_URL + path, { method: "DELETE"})
-    return response.json()
+    return
 }

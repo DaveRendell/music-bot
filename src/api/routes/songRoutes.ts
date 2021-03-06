@@ -12,13 +12,11 @@ router.get("/", async (req, res) => {
 })
 
 router.get("/:id", async (req, res) => {
-    console.log(req.params["id"])
     const song = await db.getSong(req.params["id"])
     res.send(JSON.stringify(song))
 })
 
 router.post("/", async (req, res) => {
-    console.log(req.body)
     const song = req.body as Create<Song>
     const result = await db.addSong(song)
     res.status(201).send(JSON.stringify(result))
@@ -31,7 +29,7 @@ router.put("/:id", async (req, res) => {
 })
 
 router.delete("/:id", async (req, res) => {
-    const result = await db.deleteSong(req.params["id"])
+    await db.deleteSong(req.params["id"])
     res.status(204).send()
 })
 

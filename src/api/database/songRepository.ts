@@ -42,7 +42,7 @@ export async function updateSong(song: Edit<Song>): Promise<Song> {
 
 export async function deleteSong(id: string): Promise<void> {
     const state = await readState()
-    const index = state.songs.findIndex(song => song.id === song.id)
+    const index = state.songs.findIndex(song => song.id === id)
     if (index == -1) {
         throw new Error(`Song with id ${id} not found`)
     }
