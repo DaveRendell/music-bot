@@ -3,6 +3,8 @@ import { readState, writeState } from "./db"
 import * as uuid from "uuid"
 import Create from "../../common/types/create";
 import Edit from "../../common/types/edit";
+import State from "./state";
+import SongNotFoundError from "../errors/songNotFoundError"
 
 export async function listSongs(): Promise<Song[]> {
     const state = await readState()
@@ -11,7 +13,7 @@ export async function listSongs(): Promise<Song[]> {
 
 export async function getSong(id: string): Promise<Song> {
     const state = await readState()
-    return state.songs.find(song => song.id === id)
+    return state.songs[getSongIndexById(id, state)]
 }
 
 export async function addSong(song: Create<Song>): Promise<Song> {
@@ -42,12 +44,17 @@ export async function updateSong(song: Edit<Song>): Promise<Song> {
 
 export async function deleteSong(id: string): Promise<void> {
     const state = await readState()
-    const index = state.songs.findIndex(song => song.id === id)
-    if (index == -1) {
-        throw new Error(`Song with id ${id} not found`)
-    }
+    const index = getSongIndexById(id, state)
     state.songs.splice(index, 1)
 
     await writeState(state)
     return
+}
+
+function getSongIndexById(id: string, state: State): number {
+    const index = state.songs.findIndex(song => song.id === id)
+    if (index == -1) {
+        throw new SongNotFoundError(id)
+    }
+    return index
 }
