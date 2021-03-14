@@ -11,7 +11,11 @@ export default function SongForm(
   { onSubmit, currentValue, buttonPrompt}: SongFormProps
 ) {
   const [song, updateSong] =
-    React.useState<Omit<Song, "id">>(currentValue || { name: "", url: ""})
+    React.useState<Omit<Song, "id">>(
+      {
+        name: currentValue?.name || "",
+        url: currentValue?.url || ""
+      })
 
   async function submitForm(event: React.SyntheticEvent) {
     event.preventDefault()

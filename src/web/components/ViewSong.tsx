@@ -22,7 +22,7 @@ export default function ViewSong() {
 
   async function deleteSong(e: React.SyntheticEvent) {
     e.preventDefault()
-    await api.deleteSong(song.id)
+    await api.deleteSong(song?.id || "")
     setSongDeleted(true)
   }
 

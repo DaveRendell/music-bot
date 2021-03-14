@@ -18,8 +18,7 @@ export async function addSong(song: Create<Song>): Promise<Song> {
     return response as Song
 }
 
-export async function updateSong(song: Edit<Song>): Promise<Song> {
-    const id = song.id
+export async function updateSong(id: string, song: Pick<Song, "name" | "url">): Promise<Song> {
     const response = await put("/songs/" + id, JSON.stringify(song))
     return response as Song
 }

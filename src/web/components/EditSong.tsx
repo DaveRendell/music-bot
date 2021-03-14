@@ -16,18 +16,18 @@ export default function EditSong() {
     const [submitted, setSubmitted] = React.useState<boolean>(false)
     const [finished, setFinished] = React.useState<boolean>(false)
 
-    async function onSubmit(updatedSong: Omit<Song, "id">) {
-        setSubmitted(true)
-        await updateSong({...updatedSong, id: song.id})
-        setFinished(true)
-    }
-
     if (finished) {
         return <Redirect to="/"/>
     }
 
     if (!song) {
         return <p>Loading...</p>
+    }
+    
+    async function onSubmit(updatedSong: Omit<Song, "id">) {
+        setSubmitted(true)
+        await updateSong(song?.id || "", {...updatedSong})
+        setFinished(true)
     }
 
     return (

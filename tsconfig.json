@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "outDir": "dist",
+    "experimentalDecorators": true,
     "jsx": "react",
     "module": "commonjs",
     "noImplicitAny": true,
@@ -7,6 +9,11 @@
     "removeComments": true,
     "sourceMap": true,
     "target": "es5",
-    "strict": true
-  }
+    "strict": true,
+    "emitDecoratorMetadata": true,
+  },
+  "include":[
+    "src/api/**/*",
+    "src/common/**/*",
+  ]
 }
