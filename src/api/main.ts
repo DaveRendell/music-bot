@@ -4,7 +4,7 @@ import * as cors from "cors"
 import * as path from "path"
 import { RegisterRoutes } from "./build/routes"
 import { ValidateError } from "tsoa"
-import * as ytdl from "ytdl-core-discord"
+const ytdl = require("ytdl-core-discord")
 import * as Discord from "discord.js"
 
 const api = express()
