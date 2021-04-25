@@ -4,26 +4,13 @@ import * as cors from "cors"
 import * as path from "path"
 import { RegisterRoutes } from "./build/routes"
 import { ValidateError } from "tsoa"
-const ytdl = require("ytdl-core-discord")
-import * as Discord from "discord.js"
+import { startUp } from "./discord"
 
 const api = express()
 const port = 3000
-const client = new Discord.Client()
-const { token } = require('../../token.json')
-
 
 api.use(bodyParser.json())
 api.use(cors())
-
-api.get("/sendTestMessage", (_req: express.Request, res: express.Response) => {
-  const channel = client.channels.cache.get('676831672230084608') as Discord.TextChannel
-  channel?.send("Test message pls ignore")
-  console.log("Button pressed")
-  
-  // Return empty response
-  res.status(204).send()
-})
 
 RegisterRoutes(api)
 
@@ -57,21 +44,8 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-client.once('ready', () => {
+startUp(() => {
 	api.listen(port, () => {
     console.log(`API & Discord running on port ${port}`)
   })
 })
-
-client.on('message', async (message: Discord.Message) => {
-	if (client.user && message.mentions.has(client.user)) {
-    if (message.member?.voice.channel) {
-      const connection = await message.member.voice.channel.join();
-      connection.play(await ytdl('https://www.youtube.com/watch?v=dQw4w9WgXcQ'), { type: 'opus' });
-    } else {
-      message.reply('You need to join a voice channel first!');
-    }
-  }
-});
-
-client.login(token)

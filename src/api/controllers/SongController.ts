@@ -10,7 +10,6 @@ import {
 } from "tsoa"
 import Song from "../../common/models/song"
 import * as songs from "../database/songRepository"
-import Edit from "../../common/types/edit"
 
 @Route("songs")
 export class SongsController extends Controller {
