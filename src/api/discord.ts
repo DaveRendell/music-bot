@@ -9,7 +9,9 @@ export function startUp(callback: () => void): void {
   client.once('ready', callback)
   
   client.on('message', async (message: Discord.Message) => {
-    if (client.user && message.mentions.has(client.user)) {
+    const messageIsForAllUsers = message.content.includes("@here")
+        || message.content.includes("@everyone")
+    if (client.user && message.mentions.has(client.user) && !messageIsForAllUsers) {
       if (message.member?.voice.channel) {
         connection = await message.member.voice.channel.join();
       } else {
