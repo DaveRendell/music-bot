@@ -1,0 +1,14 @@
+[Unit]
+Description=Music bot service
+After=network.target
+
+[Service]
+ExecStart=/home/pi/.nvm/versions/node/v15.11.0/bin/node /home/pi/music-bot/dist/api/main.js
+WorkingDirectory=/home/pi/music-bot
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
