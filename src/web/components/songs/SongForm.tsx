@@ -1,5 +1,5 @@
 import * as React from "react"
-import Song from "../../common/models/song";
+import Song from "../../../common/models/song";
 
 type SongFormProps = {
   onSubmit: (song: Omit<Song, "id">) => void

@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Redirect } from "react-router-dom"
-import { addSong } from "../api/songs"
-import Song from "../../common/models/song"
+import { addSong } from "../../api/songs"
+import Song from "../../../common/models/song"
 import SongForm from "./SongForm"
 
 export default function AddSong() {

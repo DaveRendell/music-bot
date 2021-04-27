@@ -6,10 +6,10 @@ import {
   Link
 } from "react-router-dom"
 import { sendTestMessage } from "../api/testMethod"
-import AddSong from "./AddSong"
+import AddSong from "./songs/AddSong"
 import HomePage from "./HomePage"
-import EditSong from "./EditSong"
-import ViewSong from "./ViewSong"
+import EditSong from "./songs/EditSong"
+import ViewSong from "./songs/ViewSong"
 
 export default function App() {
   return (

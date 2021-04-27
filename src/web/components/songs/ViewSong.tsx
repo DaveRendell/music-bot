@@ -1,7 +1,7 @@
 import * as React from "react"
-import useSong from "../hooks/useSong"
+import useSong from "../../hooks/useSong"
 import { useParams, Link, Redirect } from "react-router-dom"
-import * as api from "../api/songs"
+import * as api from "../../api/songs"
 
 type ViewSongRouteParams = {
   id: string

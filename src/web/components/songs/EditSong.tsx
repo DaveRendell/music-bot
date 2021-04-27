@@ -1,9 +1,9 @@
 import * as React from "react"
 import { Redirect } from "react-router-dom"
-import { updateSong } from "../api/songs"
-import Song from "../../common/models/song"
+import { updateSong } from "../../api/songs"
+import Song from "../../../common/models/song"
 import SongForm from "./SongForm"
-import useSong from "../hooks/useSong"
+import useSong from "../../hooks/useSong"
 import { useParams } from "react-router-dom"
 
 type EditSongRouteParams = {

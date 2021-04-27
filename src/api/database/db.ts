@@ -19,5 +19,6 @@ export async function writeState(state: State): Promise<void> {
 }
 
 const defaultState: State = {
-    songs: []
+    songs: [],
+    playlists: []
 }
