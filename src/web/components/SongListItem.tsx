@@ -4,10 +4,11 @@ import { Link } from "react-router-dom"
 import { playSong } from "../api/music"
 
 type SongListItemProps = {
-  song: Song
+  song: Song,
+  index: number
 }
 
-export default function SongListItem({ song }: SongListItemProps) {
+export default function SongListItem({ song, index }: SongListItemProps) {
   return (
     <li>
       <button onClick={() => playSong(song.id)}>Play</button>

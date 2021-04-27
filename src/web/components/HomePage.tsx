@@ -16,7 +16,7 @@ export default function HomePage() {
     if (loaded) {
         return <ul>
             {songs.map((song, idx) => (
-                <SongListItem key={idx} song={song} />
+                <SongListItem key={idx} index={idx} song={song} />
             ))}
         </ul>
     } else {
