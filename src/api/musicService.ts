@@ -23,6 +23,25 @@ export async function playAllSongs(startSongId: string) {
   playSong(allSongs[startIndex].url)
 }
 
+export async function shuffleSongs() {
+  const allSongs = await listSongs()
+  const shuffledPlaylist = shuffleArray(allSongs)
+  playerState = {
+    playlist: shuffledPlaylist,
+    nowPlayingIndex: 0
+  }
+  playSong(shuffledPlaylist[0].url)
+}
+
+function shuffleArray<T>(input: T[]) {
+  let array = input.slice()
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array
+}
+
 export function onSongFinish() {
   // Plays the next song in the list
   let newNowPlayingIndex = (playerState.nowPlayingIndex + 1) % playerState.playlist.length
