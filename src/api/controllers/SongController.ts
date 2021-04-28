@@ -7,6 +7,7 @@ import {
   Post,
   Route,
   Delete,
+  Query
 } from "tsoa"
 import Song from "../../common/models/song"
 import * as songs from "../database/songRepository"
@@ -14,7 +15,12 @@ import * as songs from "../database/songRepository"
 @Route("songs")
 export class SongsController extends Controller {
   @Get()
-  public async getSongs(): Promise<Song[]> {
+  public async getSongs(
+    @Query() playlistId?: string
+  ): Promise<Song[]> {
+    if (playlistId) {
+      return songs.listSongsForPlaylist(playlistId)
+    }
     return songs.listSongs()
   }
 

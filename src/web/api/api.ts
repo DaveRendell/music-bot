@@ -1,6 +1,9 @@
 const API_BASE_URL = "http://localhost:3000"
 
-export async function get(path: string): Promise<any> {
+export async function get(path: string, query: string[] = []): Promise<any> {
+    const queryString = query.length > 0 
+        ? "?" + query.join("&")
+        : ""
     const response = await fetch(API_BASE_URL + path)
     return response.json()
 }

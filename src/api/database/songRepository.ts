@@ -5,6 +5,7 @@ import Create from "../../common/types/create";
 import Edit from "../../common/types/edit";
 import State from "./state";
 import SongNotFoundError from "../errors/songNotFoundError"
+import PlaylistNotFoundError from "../errors/playlistNotFoundError";
 
 export async function listSongs(): Promise<Song[]> {
     const state = await readState()
@@ -49,6 +50,17 @@ export async function deleteSong(id: string): Promise<void> {
 
     await writeState(state)
     return
+}
+
+export async function listSongsForPlaylist(playlistId: string): Promise<Song[]> {
+  const state = await readState()
+  const playlist = state.playlists.find(pl => pl.id === playlistId)
+  if (!playlist) {
+      throw new PlaylistNotFoundError(playlistId)
+  }
+  return playlist.songIds
+    .map(id => getSongIndexById(id, state))
+    .map(idx => state.songs[idx])
 }
 
 function getSongIndexById(id: string, state: State): number {
