@@ -5,6 +5,7 @@ import { shuffle } from "../api/music"
 import { listSongs } from "../api/songs"
 import { listPlaylists } from "../api/playlists"
 import SongListItem from "./SongListItem"
+import { Link } from "react-router-dom"
 
 export default function HomePage() {
     const [loaded, setLoaded] = React.useState<boolean>(false)
@@ -23,7 +24,7 @@ export default function HomePage() {
             <div>
                 <ul>
                     {playlists.map((playlist, idx) => (
-                        <li key={idx}>{playlist.name}</li>
+                        <li key={idx}><Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link></li>
                     ))}
                 </ul>
                 <button onClick={() => shuffle()}>Shuffle</button>

@@ -23,6 +23,6 @@ export async function updatePlaylist(id: string, playlist: Pick<Playlist, "name"
   return response as Playlist
 }
 
-export async function deleteSong(id: string): Promise<void> {
+export async function deletePlaylist(id: string): Promise<void> {
   return del("/playlists/" + id)
 }

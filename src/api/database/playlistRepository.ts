@@ -33,7 +33,7 @@ export async function updatePlaylist(playlist: Edit<Playlist>): Promise<Playlist
   const index = getPlaylistIndexById(playlist.id, state)
   const oldPlaylist = state.playlists[index]
 
-  const newPlaylist = { ...oldPlaylist, playlist }
+  const newPlaylist = { ...oldPlaylist, ...playlist }
   state.playlists[index] = newPlaylist
 
   await writeState(state)

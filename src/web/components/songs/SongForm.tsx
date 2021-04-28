@@ -42,5 +42,5 @@ export default function SongForm(
         </fieldset>
         <input type="submit" value={buttonPrompt} />
     </form>
-)
+  )
 }
