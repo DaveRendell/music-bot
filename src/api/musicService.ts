@@ -1,5 +1,5 @@
 import PlayerState from "../common/models/playerState"
-import { listSongs } from "./database/songRepository"
+import { listSongs, listSongsForPlaylist } from "./database/songRepository"
 import { playSong } from "./discord"
 
 let playerState: PlayerState = {
@@ -7,25 +7,25 @@ let playerState: PlayerState = {
   nowPlayingIndex: 0
 }
 
-export async function playAllSongs(startSongId: string) {
-  const allSongs = await listSongs()
-  const startIndex = allSongs.findIndex(song => song.id === startSongId)
+export async function playAllSongs(startSongId: string, playlistId: string) {
+  const songs = await listSongsForPlaylist(playlistId)
+  const startIndex = songs.findIndex(song => song.id === startSongId)
 
   if (startIndex === -1) {
     throw new Error(`Song with id ${startSongId} not found`)
   }
 
   playerState = {
-    playlist: allSongs,
+    playlist: songs,
     nowPlayingIndex: startIndex
   }
 
-  playSong(allSongs[startIndex].url)
+  playSong(songs[startIndex].url)
 }
 
-export async function shuffleSongs() {
-  const allSongs = await listSongs()
-  const shuffledPlaylist = shuffleArray(allSongs)
+export async function shuffleSongs(playlistId: string) {
+  const songs = await listSongsForPlaylist(playlistId)
+  const shuffledPlaylist = shuffleArray(songs)
   playerState = {
     playlist: shuffledPlaylist,
     nowPlayingIndex: 0

@@ -24,11 +24,11 @@ export default function App() {
         <Route path="/playlist/:id/edit">
           <EditPlaylist />
         </Route>
+        <Route path="/playlist/:id/addSong">
+          <AddSong />
+        </Route>
         <Route path="/playlist/:id">
           <ViewPlaylist />
-        </Route>
-        <Route path="/new">
-          <AddSong />
         </Route>
         <Route path="/edit/:id">
           <EditSong />
@@ -37,11 +37,7 @@ export default function App() {
           <ViewSong />
         </Route>
         <Route path="/" exact>
-          <Link to="/new">Add song</Link>
-          <Link to="/playlist/new">Add playlist</Link>
           <HomePage />
-          <p>Push the button:</p>
-          <button onClick={sendTestMessage}>Push me</button>
         </Route>
       </Switch>
     </Router>

@@ -5,13 +5,13 @@ import { playSong } from "../api/music"
 
 type SongListItemProps = {
   song: Song,
-  index: number
+  playlistId: string
 }
 
-export default function SongListItem({ song, index }: SongListItemProps) {
+export default function SongListItem({ song, playlistId }: SongListItemProps) {
   return (
     <li>
-      <button onClick={() => playSong(song.id)}>Play</button>
+      <button onClick={() => playSong(song.id, playlistId)}>Play</button>
       <Link to={`/${song.id}`}>{song.name}</Link> <Link to={`edit/${song.id}`}>Edit</Link>
     </li>
   )

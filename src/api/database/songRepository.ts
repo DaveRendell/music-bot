@@ -48,6 +48,12 @@ export async function deleteSong(id: string): Promise<void> {
     const index = getSongIndexById(id, state)
     state.songs.splice(index, 1)
 
+    state.playlists = state.playlists.map(playlist => {
+        return {
+            ...playlist,
+            songIds: playlist.songIds.filter(songId => songId !== id)}
+    })
+
     await writeState(state)
     return
 }

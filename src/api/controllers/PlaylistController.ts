@@ -9,6 +9,7 @@ import {
   Delete,
 } from "tsoa"
 import Playlist from "../../common/models/playlist"
+import Song from "../../common/models/song"
 import * as playlists from "../database/playlistRepository"
 
 @Route("playlists")
@@ -23,6 +24,15 @@ export class PlaylistsController extends Controller {
     @Path() playlistId: string
   ): Promise<Playlist> {
     return playlists.getPlaylist(playlistId)
+  }
+
+  @Post("{playlistId}/songs")
+  public async addSongToPlaylist(
+    @Path() playlistId: string,
+    @Body() requestBody: Pick<Song, "name" | "url">
+  ): Promise<Song> {
+    this.setStatus(201)
+    return playlists.addSongToPlaylist(playlistId, requestBody)
   }
 
   @Post()

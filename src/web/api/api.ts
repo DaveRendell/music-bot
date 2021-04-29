@@ -4,7 +4,7 @@ export async function get(path: string, query: string[] = []): Promise<any> {
     const queryString = query.length > 0 
         ? "?" + query.join("&")
         : ""
-    const response = await fetch(API_BASE_URL + path)
+    const response = await fetch(API_BASE_URL + path + queryString)
     return response.json()
 }
 

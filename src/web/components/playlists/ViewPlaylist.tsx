@@ -5,6 +5,7 @@ import * as api from "../../api/playlists"
 import { Link } from "react-router-dom"
 import usePlaylistSongs from "../../hooks/usePlaylistSongs"
 import SongListItem from "../SongListItem"
+import SongList from "../SongList"
 
 type ViewPlaylistRouteParams = {
   id: string
@@ -36,7 +37,7 @@ export default function ViewPlaylist() {
       <p><Link to={`/playlist/${playlist.id}/edit`}>Edit</Link></p>
       <p><button onClick={deletePlaylist}>Delete</button></p>
       <h1>{playlist.name}</h1>
-      {songs.map((song, idx) => <SongListItem key={idx} song={song} index={idx}/>)} {/*QQ need to add playlist context for playing */}
+      <SongList playlistId={id} />
     </div>
   )
 }

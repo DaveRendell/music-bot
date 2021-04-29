@@ -5,6 +5,8 @@ import { readState, writeState } from "./db";
 import State from "./state";
 import * as uuid from "uuid"
 import Edit from "../../common/types/edit";
+import Song from "../../common/models/song";
+import { addSong } from "./songRepository";
 
 export async function listPlaylists(): Promise<Playlist[]> {
   const state = await readState()
@@ -47,6 +49,17 @@ export async function deletePlaylist(id: string): Promise<void> {
 
   await writeState(state)
   return
+}
+
+export async function addSongToPlaylist(playlistId: string, song: Create<Song>): Promise<Song> {
+  const createdSong = await addSong(song)
+  const state = await readState()
+
+  const index = getPlaylistIndexById(playlistId, state)
+  state.playlists[index].songIds.push(createdSong.id)
+
+  await writeState(state)
+  return createdSong
 }
 
 function getPlaylistIndexById(id: string, state: State): number {

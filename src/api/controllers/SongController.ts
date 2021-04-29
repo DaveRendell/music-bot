@@ -16,12 +16,9 @@ import * as songs from "../database/songRepository"
 export class SongsController extends Controller {
   @Get()
   public async getSongs(
-    @Query() playlistId?: string
+    @Query() playlistId: string
   ): Promise<Song[]> {
-    if (playlistId) {
-      return songs.listSongsForPlaylist(playlistId)
-    }
-    return songs.listSongs()
+    return songs.listSongsForPlaylist(playlistId)
   }
 
   @Get("{songId}")

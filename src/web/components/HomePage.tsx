@@ -9,28 +9,28 @@ import { Link } from "react-router-dom"
 
 export default function HomePage() {
     const [loaded, setLoaded] = React.useState<boolean>(false)
-    const [songs, setSongs] = React.useState<Song[]>([])
     const [playlists, setPlaylists] = React.useState<Playlist[]>([])
 
     React.useEffect(() => {
         Promise.all([
-            listSongs().then(setSongs),
             listPlaylists().then(setPlaylists)
         ]).then(() => setLoaded(true))
     }, [])
 
+    const onClick = (playlistId: string) => {
+        return function(e: React.SyntheticEvent) {
+            e.preventDefault()
+            shuffle(playlistId)
+        }
+    }
+
     if (loaded) {
         return (
             <div>
+                <Link to="/playlist/new">Add playlist</Link>
                 <ul>
                     {playlists.map((playlist, idx) => (
-                        <li key={idx}><Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link></li>
-                    ))}
-                </ul>
-                <button onClick={() => shuffle()}>Shuffle</button>
-                <ul>
-                    {songs.map((song, idx) => (
-                        <SongListItem key={idx} index={idx} song={song} />
+                        <li key={idx}><button onClick={onClick(playlist.id)}>Shuffle</button> <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link></li>
                     ))}
                 </ul>
             </div>        
