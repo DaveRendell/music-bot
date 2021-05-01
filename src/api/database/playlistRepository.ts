@@ -51,7 +51,7 @@ export async function deletePlaylist(id: string): Promise<void> {
   return
 }
 
-export async function addSongToPlaylist(playlistId: string, song: Create<Song>): Promise<Song> {
+export async function addSongToPlaylist(playlistId: string, song: Omit<Song, "id" | "length">): Promise<Song> {
   const createdSong = await addSong(song)
   const state = await readState()
 

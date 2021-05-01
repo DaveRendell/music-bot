@@ -15,7 +15,7 @@ export async function getSong(id: string): Promise<Song> {
     return response as Song
 }
 
-export async function addSong(song: Create<Song>, playlistId: string): Promise<Song> {
+export async function addSong(song: Omit<Song, "id" | "length">, playlistId: string): Promise<Song> {
     const response = await post(`/playlists/${playlistId}/songs`, JSON.stringify(song))
     return response as Song
 }

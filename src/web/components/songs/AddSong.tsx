@@ -17,7 +17,7 @@ export default function AddSong() {
         return <Redirect to={`/playlist/${playlistId}`}/>
     }
 
-    async function onSubmit(song: Omit<Song, "id">) {
+    async function onSubmit(song: Omit<Song, "id" | "length">) {
         setSubmitted(true)
         await addSong(song, playlistId)
         setFinished(true)

@@ -24,7 +24,7 @@ export default function EditSong() {
         return <p>Loading...</p>
     }
     
-    async function onSubmit(updatedSong: Omit<Song, "id">) {
+    async function onSubmit(updatedSong: Omit<Song, "id" | "length">) {
         setSubmitted(true)
         await updateSong(song?.id || "", {...updatedSong})
         setFinished(true)

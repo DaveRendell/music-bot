@@ -1,5 +1,5 @@
 import PlayerState from "../common/models/playerState"
-import { listSongs, listSongsForPlaylist } from "./database/songRepository"
+import { listSongsForPlaylist } from "./database/songRepository"
 import { playSong } from "./discord"
 import * as Discord from "discord.js"
 
@@ -27,6 +27,7 @@ export async function playAllSongs(startSongId: string, playlistId: string) {
   }
 
   dispatcher?.destroy()
+  dispatcher = null
   dispatcher = await playSong(songs[startIndex].url)
 }
 
@@ -40,6 +41,7 @@ export async function shuffleSongs(playlistId: string) {
   }
   
   dispatcher?.destroy()
+  dispatcher = null
   dispatcher = await playSong(shuffledPlaylist[0].url)
 }
 
@@ -65,6 +67,7 @@ export function skip(): Promise<void> {
 export async function stop(): Promise<void> {
   playerState = defaultPlayerState
   dispatcher?.destroy()
+  dispatcher = null
 }
 
 export async function getPlayerState(): Promise<PlayerState> {
@@ -92,6 +95,6 @@ export async function onSongFinish() {
   playerState = { ...playerState, nowPlayingIndex: newNowPlayingIndex }
 
   dispatcher?.destroy()
+  dispatcher = null
   dispatcher = await playSong(nextSong.url)
 }
-
