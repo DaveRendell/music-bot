@@ -1,6 +1,7 @@
 import { Controller, Get, Path, Query, Route } from "@tsoa/runtime";
+import PlayerState from "../../common/models/playerState";
 import { getSong } from "../database/songRepository";
-import { playAllSongs, shuffleSongs } from "../musicService";
+import { playAllSongs, shuffleSongs, getPlayerState, playPause, stop, skip } from "../musicService";
 
 @Route("music")
 export class MusicController extends Controller {
@@ -25,5 +26,25 @@ export class MusicController extends Controller {
     await shuffleSongs(playlistId)    
     this.setStatus(204)
     return
+  }
+
+  @Get()
+  public async getPlayerState(): Promise<PlayerState> {
+    return getPlayerState()
+  }
+
+  @Get("playpause")
+  public async playPause() {
+    return playPause()
+  }
+
+  @Get("stop")
+  public async stop() {
+    return stop()
+  }
+
+  @Get("skip")
+  public async skip() {
+    return skip()
   }
 }

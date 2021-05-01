@@ -4,7 +4,6 @@ import * as Discord from "discord.js"
 import { onSongFinish } from "./musicService"
 
 let connection: Discord.VoiceConnection | null = null
-let dispatcher: Discord.StreamDispatcher | null = null
 
 export function startUp(callback: () => void): void {
   const client = new Discord.Client()
@@ -25,19 +24,17 @@ export function startUp(callback: () => void): void {
   client.login(token)
 }
 
-export async function playSong(youtubeUrl: string): Promise<void> {
+export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
   if (connection === null) {
     throw new Error("Not currently connected to a voice channel")
   }
-  if (dispatcher !== null) {
-    dispatcher.destroy()
-  }
 
-  dispatcher = connection.play(await ytdl(youtubeUrl), { type: 'opus' })
+  let dispatcher = connection.play(await ytdl(youtubeUrl), { type: 'opus' })
 
   dispatcher.on('finish', () => {
     console.log(`Finished playing song at ${youtubeUrl}`)
     onSongFinish()
   })
-  return
+
+  return dispatcher
 }

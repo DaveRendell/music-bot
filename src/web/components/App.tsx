@@ -13,33 +13,39 @@ import ViewSong from "./songs/ViewSong"
 import AddPlaylist from "./playlists/AddPlaylist"
 import EditPlaylist from "./playlists/EditPlaylist"
 import ViewPlaylist from "./playlists/ViewPlaylist"
+import usePlayerState from "../hooks/usePlayerState"
+import PlayerControl from "./PlayerControl"
 
 export default function App() {
+  const playerState = usePlayerState()
   return (
-    <Router>
-      <Switch>
-        <Route path="/playlist/new">
-          <AddPlaylist />
-        </Route>
-        <Route path="/playlist/:id/edit">
-          <EditPlaylist />
-        </Route>
-        <Route path="/playlist/:id/addSong">
-          <AddSong />
-        </Route>
-        <Route path="/playlist/:id">
-          <ViewPlaylist />
-        </Route>
-        <Route path="/edit/:id">
-          <EditSong />
-        </Route>
-        <Route path="/:id">
-          <ViewSong />
-        </Route>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
-      </Switch>
-    </Router>
+    <div>
+      <Router>
+        <Switch>
+          <Route path="/playlist/new">
+            <AddPlaylist />
+          </Route>
+          <Route path="/playlist/:id/edit">
+            <EditPlaylist />
+          </Route>
+          <Route path="/playlist/:id/addSong">
+            <AddSong />
+          </Route>
+          <Route path="/playlist/:id">
+            <ViewPlaylist />
+          </Route>
+          <Route path="/edit/:id">
+            <EditSong />
+          </Route>
+          <Route path="/:id">
+            <ViewSong />
+          </Route>
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
+        </Switch>
+      </Router>
+      <PlayerControl playerState={playerState} />
+    </div>
   )
 }
