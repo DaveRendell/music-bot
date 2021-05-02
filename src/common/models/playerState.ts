@@ -5,6 +5,7 @@ type PlayerState = {
   playlistId: string
   nowPlayingIndex: number
   streamTime: number
+  isPaused: boolean
 }
 
 export default PlayerState;

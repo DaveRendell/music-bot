@@ -2,6 +2,7 @@ import * as React from "react"
 import { Link } from "react-router-dom"
 import { shuffle } from "../api/music"
 import usePlaylistSongs from "../hooks/usePlaylistSongs"
+import PlayerButton from "./PlayerButton"
 import SongListItem from "./SongListItem"
 
 type SongListProps = {
@@ -15,12 +16,12 @@ export default function SongList(
   return (
     <div>
       <Link to={`/playlist/${playlistId}/addSong`}>Add song</Link>
-      <button onClick={() => shuffle(playlistId)}>Shuffle</button>
-      <ul>
+      <PlayerButton action={() => shuffle(playlistId)} iconClass="random" />
+      <div>
         {songs.map((song, idx) => (
           <SongListItem key={idx} playlistId={playlistId} song={song} />
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

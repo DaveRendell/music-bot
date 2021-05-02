@@ -1,9 +1,9 @@
 import PlayerState from "../common/models/playerState"
 import { listSongsForPlaylist } from "./database/songRepository"
-import { playSong } from "./discord"
+import { disconnect, playSong } from "./discord"
 import * as Discord from "discord.js"
 
-const  defaultPlayerState: Omit<PlayerState, "streamTime"> = {
+const  defaultPlayerState: Omit<PlayerState, "streamTime" | "isPaused"> = {
   playlist: [],
   playlistId: "",
   nowPlayingIndex: 0
@@ -68,13 +68,15 @@ export async function stop(): Promise<void> {
   playerState = defaultPlayerState
   dispatcher?.destroy()
   dispatcher = null
+  disconnect()
 }
 
 export async function getPlayerState(): Promise<PlayerState> {
 
   return {
     ...playerState,
-    streamTime: dispatcher ? dispatcher.streamTime : 0
+    streamTime: dispatcher ? dispatcher.streamTime : 0,
+    isPaused: dispatcher ? dispatcher.paused : true
   }
 }
 

@@ -6,6 +6,9 @@ import { listSongs } from "../api/songs"
 import { listPlaylists } from "../api/playlists"
 import SongListItem from "./SongListItem"
 import { Link } from "react-router-dom"
+import PlayerButton from "./PlayerButton"
+import LinkButton from "./LinkButton"
+import PlaylistListItem from "./PlaylistListItem"
 
 export default function HomePage() {
     const [loaded, setLoaded] = React.useState<boolean>(false)
@@ -27,12 +30,12 @@ export default function HomePage() {
     if (loaded) {
         return (
             <div>
-                <Link to="/playlist/new">Add playlist</Link>
-                <ul>
+                <LinkButton to="/playlist/new" iconClass="plus" text="Add playlist" />
+                <div>
                     {playlists.map((playlist, idx) => (
-                        <li key={idx}><button onClick={onClick(playlist.id)}>Shuffle</button> <Link to={`/playlist/${playlist.id}`}>{playlist.name}</Link></li>
+                        <PlaylistListItem key={idx} playlist={playlist} />
                     ))}
-                </ul>
+                </div>
             </div>        
         )
     } else {

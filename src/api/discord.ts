@@ -38,3 +38,7 @@ export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispat
 
   return dispatcher
 }
+
+export function disconnect(): void {
+  connection?.disconnect()
+}

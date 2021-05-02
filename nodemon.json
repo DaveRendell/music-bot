@@ -3,5 +3,5 @@
     "src/"
   ],
   "exec": "ts-node src/api/main.ts",
-  "ext": "ts tsx"
+  "ext": "ts"
 }
