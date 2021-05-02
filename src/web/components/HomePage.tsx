@@ -19,10 +19,11 @@ export default function HomePage() {
             listPlaylists().then(setPlaylists)
         ]).then(() => setLoaded(true))
     }, [])
-    
+
     if (loaded) {
         return (
             <div>
+                <h1>🎵 Music Bot</h1>
                 <LinkButton to="/playlist/new" iconClass="plus" text="Add playlist" />
                 <LinkButton to="/playlist/import" iconClass="arrow-down" text="Import playlist" />
                 <div>
