@@ -7,6 +7,7 @@ import * as uuid from "uuid"
 import Edit from "../../common/types/edit";
 import Song from "../../common/models/song";
 import { addSong } from "./songRepository";
+import * as ytpl from "ytpl"
 
 export async function listPlaylists(): Promise<Playlist[]> {
   const state = await readState()
@@ -60,6 +61,19 @@ export async function addSongToPlaylist(playlistId: string, song: Omit<Song, "id
 
   await writeState(state)
   return createdSong
+}
+
+export async function importPlaylist(playlistUrl: string): Promise<Playlist> {
+  const youtubePlaylist = await ytpl(playlistUrl)
+  let songs: Song[] = []
+  for (let item of youtubePlaylist.items) {
+    const song = await addSong({name: "", url: item.shortUrl})
+    songs.push(song)
+  }
+  return addPlaylist({
+    name: youtubePlaylist.title,
+    songIds: songs.map(song => song.id)
+  })
 }
 
 function getPlaylistIndexById(id: string, state: State): number {

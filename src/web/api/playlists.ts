@@ -26,3 +26,8 @@ export async function updatePlaylist(id: string, playlist: Pick<Playlist, "name"
 export async function deletePlaylist(id: string): Promise<void> {
   return del("/playlists/" + id)
 }
+
+export async function importPlaylist(playlistUrl: string): Promise<Playlist> {
+  const response = await post("/playlists/import", JSON.stringify({playlistUrl}))
+  return response as Playlist
+}

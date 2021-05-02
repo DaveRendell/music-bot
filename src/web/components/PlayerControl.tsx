@@ -26,7 +26,6 @@ export default function PlayerControl({ playerState }: PlayerControlProps) {
 
   const streamTime = minutesAndSeconds(Math.floor(playerState.streamTime / 1000))
   const songTime = minutesAndSeconds(song?.length || 0)
-  console.log(playerState)
 
   return (
     <div className="player-control | light sticky-bottom">

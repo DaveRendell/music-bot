@@ -19,18 +19,12 @@ export default function HomePage() {
             listPlaylists().then(setPlaylists)
         ]).then(() => setLoaded(true))
     }, [])
-
-    const onClick = (playlistId: string) => {
-        return function(e: React.SyntheticEvent) {
-            e.preventDefault()
-            shuffle(playlistId)
-        }
-    }
-
+    
     if (loaded) {
         return (
             <div>
                 <LinkButton to="/playlist/new" iconClass="plus" text="Add playlist" />
+                <LinkButton to="/playlist/import" iconClass="arrow-down" text="Import playlist" />
                 <div>
                     {playlists.map((playlist, idx) => (
                         <PlaylistListItem key={idx} playlist={playlist} />

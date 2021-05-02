@@ -57,4 +57,11 @@ export class PlaylistsController extends Controller {
   ): Promise<void> {
     return playlists.deletePlaylist(playlistId)
   }
+
+  @Post("import")
+  public async importPlaylist(
+    @Body() body: { playlistUrl: string }
+  ): Promise<Playlist> {
+    return playlists.importPlaylist(body.playlistUrl)
+  }
 }

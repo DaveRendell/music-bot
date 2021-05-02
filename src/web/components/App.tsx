@@ -15,6 +15,7 @@ import EditPlaylist from "./playlists/EditPlaylist"
 import ViewPlaylist from "./playlists/ViewPlaylist"
 import usePlayerState from "../hooks/usePlayerState"
 import PlayerControl from "./PlayerControl"
+import ImportPlaylist from "./playlists/ImportPlaylist"
 
 export default function App() {
   const playerState = usePlayerState()
@@ -25,6 +26,9 @@ export default function App() {
           <Switch>
             <Route path="/playlist/new">
               <AddPlaylist />
+            </Route>
+            <Route path="/playlist/import">
+              <ImportPlaylist />
             </Route>
             <Route path="/playlist/:id/edit">
               <EditPlaylist />

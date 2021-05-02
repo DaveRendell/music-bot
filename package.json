@@ -43,7 +43,16 @@
     "ffmpeg-static": "^4.2.8",
     "tsoa": "^3.5.2",
     "uuid": "^3.4.0",
+    "youtube-playlist": "^1.0.4",
     "ytdl-core": "^4.5.0",
-    "ytdl-core-discord": "^1.2.5"
-  }
+    "ytdl-core-discord": "^1.2.5",
+    "ytpl": "^2.2.0"
+  },
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 chrome versions",
+    "last 3 opera versions",
+    "last 3 ios_saf versions",
+    "last 3 safari versions"
+  ]
 }
