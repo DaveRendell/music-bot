@@ -39,6 +39,8 @@ api.use(function errorHandler(
 if (process.env.NODE_ENV === "production") {
   console.log("in prod")
   api.get(/.*js/, express.static(path.join(__dirname, '../web')));
+  api.get(/.*css/, express.static(path.join(__dirname, '../web')));
+  api.get(/.*ico/, express.static(path.join(__dirname, '../web')));
   api.get('*', function(_req, res) {
     res.sendFile(path.join(__dirname, "../web/index.html"));
   });
