@@ -3,6 +3,7 @@ Description=Music bot service
 After=network.target
 
 [Service]
+Environment="NODE_ENV=production"
 ExecStart=/home/pi/.nvm/versions/node/v15.11.0/bin/node /home/pi/music-bot/dist/api/main.js
 WorkingDirectory=/home/pi/music-bot
 StandardOutput=inherit
