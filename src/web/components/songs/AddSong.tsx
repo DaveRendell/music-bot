@@ -24,6 +24,9 @@ export default function AddSong() {
     }
 
     return (
-        <SongForm onSubmit={onSubmit} buttonPrompt="Add" />
+        <div>
+            <h1>Add new song</h1>
+            <SongForm onSubmit={onSubmit} buttonPrompt="Add" />
+        </div>
     )
 }

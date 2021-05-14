@@ -20,8 +20,12 @@ export default function ImportPlaylist() {
 
   return (
     <div>
+      <h1>Import YouTube playlist</h1>
       <form onSubmit={getPlaylist}>
-        <input type="text" value={playlistUrl} onChange={e => setPlaylistUrl(e.target.value)} />
+        <fieldset>
+          <label>YouTube URL: </label>
+          <input type="text" value={playlistUrl} onChange={e => setPlaylistUrl(e.target.value)} />
+        </fieldset>
         <input type="submit" value="Fetch playlist" disabled={submitted} />
       </form>
     </div>

@@ -17,6 +17,9 @@ export default function AddPlaylist() {
   }
 
   return (
-    <PlaylistForm onSubmit={onSubmit} buttonPrompt="Add" />
+    <div>
+      <h1>Add a new playlist</h1>
+      <PlaylistForm onSubmit={onSubmit} buttonPrompt="Add" />
+    </div>
   )
 }

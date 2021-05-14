@@ -27,6 +27,9 @@ export default function EditPlaylist() {
   }
 
   return (
-    <PlaylistForm onSubmit={onSubmit} currentValue={playlist} buttonPrompt="Edit" />
+    <div>
+      <h1>Edit playlist</h1>
+      <PlaylistForm onSubmit={onSubmit} currentValue={playlist} buttonPrompt="Edit" />
+    </div>
   )
 }
