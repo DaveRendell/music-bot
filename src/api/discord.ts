@@ -47,6 +47,20 @@ export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispat
   return dispatcher
 }
 
+export async function setAmbience(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
+  if (ambienceConnection === null) {
+    throw new Error("Not currently connected to a voice channel")
+  }
+
+  let dispatcher = ambienceConnection.play(await ytdl(youtubeUrl), { type: 'opus' })
+
+  dispatcher.on('finish', () => {
+    setAmbience(youtubeUrl)
+  })
+
+  return dispatcher
+}
+
 export function disconnect(): void {
   musicConnection?.disconnect()
   ambienceConnection?.disconnect()

@@ -40,10 +40,7 @@ export async function addSong(song: Omit<Song, "id" | "length">): Promise<Song> 
 
 export async function updateSong(song: Edit<Song>): Promise<Song> {
     const state = await readState()
-    const index = state.songs.findIndex(song => song.id === song.id)
-    if (index == -1) {
-        throw new Error(`Song with id ${song.id} not found`)
-    }
+    const index = getSongIndexById(song.id, state)
     const oldSong = state.songs[index]
 
     const newSong = { ...oldSong, ...song }

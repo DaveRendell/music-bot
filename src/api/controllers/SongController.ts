@@ -47,7 +47,7 @@ export class SongsController extends Controller {
   @Delete("{songId}")
   public async deleteSong(
     @Path() songId: string
-  ) {
+  ): Promise<void> {
     return songs.deleteSong(songId)
   }
 }
