@@ -41,7 +41,6 @@
     "discord.js": "^12.5.1",
     "express": "^4.17.1",
     "ffmpeg-static": "^4.2.8",
-    "ngrok": "^4.0.1",
     "tsoa": "^3.5.2",
     "uuid": "^3.4.0",
     "youtube-playlist": "^1.0.4",

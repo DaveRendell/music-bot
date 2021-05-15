@@ -1,39 +1,43 @@
 const ytdl = require("ytdl-core-discord")
-const { token } = require('../../token.json')
+const { musicBotToken, ambienceBotToken } = require('../../token.json')
 import * as Discord from "discord.js"
 import { onSongFinish } from "./musicService"
-import * as Ngrok from "ngrok"
 
-let connection: Discord.VoiceConnection | null = null
+let musicConnection: Discord.VoiceConnection | null = null
+let ambienceConnection: Discord.VoiceConnection | null = null
 
 export function startUp(callback: () => void): void {
-  const client = new Discord.Client()
-  client.once('ready', callback)
+  const musicClient = new Discord.Client()
+  const ambienceClient = new Discord.Client()
+  musicClient.once('ready', callback)
   
-  client.on('message', async (message: Discord.Message) => {
+  musicClient.on('message', async (message: Discord.Message) => {
     const messageIsForAllUsers = message.content.includes("@here")
         || message.content.includes("@everyone")
-    if (client.user && message.mentions.has(client.user) && !messageIsForAllUsers) {
+    if (musicClient.user && message.mentions.has(musicClient.user) && !messageIsForAllUsers) {
       if (message.member?.voice.channel) {
-        connection = await message.member.voice.channel.join();
-        const port = process.env.NODE_ENV == "production" ? 3000 : 1234
-        const url = await Ngrok.connect(port)
-        message.reply(`Connected to ${message.member.voice.channel.name}. You can access my web interface at ${url}.`)
+        const channelId = message.member?.voice.channel.id;
+        [musicConnection, ambienceConnection] = await Promise.all([
+          message.member.voice.channel.join(),
+          (ambienceClient.channels.cache.get(channelId) as Discord.VoiceChannel).join()
+        ]);
+        message.reply(`Connected to ${message.member.voice.channel.name}.`)
       } else {
         message.reply('You need to join a voice channel first!');
       }
     }
   });
   
-  client.login(token)
+  musicClient.login(musicBotToken)
+  ambienceClient.login(ambienceBotToken)
 }
 
 export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
-  if (connection === null) {
+  if (musicConnection === null) {
     throw new Error("Not currently connected to a voice channel")
   }
 
-  let dispatcher = connection.play(await ytdl(youtubeUrl), { type: 'opus' })
+  let dispatcher = musicConnection.play(await ytdl(youtubeUrl), { type: 'opus' })
 
   dispatcher.on('finish', () => {
     console.log(`Finished playing song at ${youtubeUrl}`)
@@ -44,5 +48,6 @@ export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispat
 }
 
 export function disconnect(): void {
-  connection?.disconnect()
+  musicConnection?.disconnect()
+  ambienceConnection?.disconnect()
 }
