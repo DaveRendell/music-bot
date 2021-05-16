@@ -10,7 +10,6 @@ export async function listSongs(playlistId: string): Promise<Song[]> {
 }
 
 export async function getSong(id: string): Promise<Song> {
-    
     const response = await get("/songs/" + id)
     return response as Song
 }

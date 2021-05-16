@@ -1,8 +1,8 @@
 type Ambience = {
-  id: String
-  name: String
-  url: String
-  emoji: String
+  id: string
+  name: string
+  url: string
+  emoji: string
 }
 
 export default Ambience

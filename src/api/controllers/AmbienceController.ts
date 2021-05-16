@@ -2,7 +2,7 @@ import { Controller, Get, Route, Path, Post, Body, Put, Delete } from "@tsoa/run
 import Ambience from "../../common/models/ambience";
 import * as ambiences from "../database/ambienceRepository"
 
-@Route("ambience")
+@Route("ambiences")
 export class AmbienceController extends Controller {
   @Get()
   public async getAmbiences(): Promise<Ambience[]> {

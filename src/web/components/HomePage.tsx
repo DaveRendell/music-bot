@@ -1,12 +1,6 @@
 import * as React from "react"
-import Song from "../../common/models/song"
 import Playlist from "../../common/models/playlist"
-import { shuffle } from "../api/music"
-import { listSongs } from "../api/songs"
 import { listPlaylists } from "../api/playlists"
-import SongListItem from "./SongListItem"
-import { Link } from "react-router-dom"
-import PlayerButton from "./PlayerButton"
 import LinkButton from "./LinkButton"
 import PlaylistListItem from "./PlaylistListItem"
 
@@ -26,6 +20,7 @@ export default function HomePage() {
                 <h1>🎵 Music Bot</h1>
                 <LinkButton to="/playlist/new" iconClass="plus" text="Add playlist" />
                 <LinkButton to="/playlist/import" iconClass="arrow-down" text="Import playlist" />
+                <LinkButton to="/ambience" iconClass="cloud-rain" text="Manage ambiences" />
                 <div>
                     {playlists.map((playlist, idx) => (
                         <PlaylistListItem key={idx} playlist={playlist} />

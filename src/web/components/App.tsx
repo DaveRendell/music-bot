@@ -5,7 +5,6 @@ import {
   Route,
   Link
 } from "react-router-dom"
-import { sendTestMessage } from "../api/testMethod"
 import AddSong from "./songs/AddSong"
 import HomePage from "./HomePage"
 import EditSong from "./songs/EditSong"
@@ -16,6 +15,9 @@ import ViewPlaylist from "./playlists/ViewPlaylist"
 import usePlayerState from "../hooks/usePlayerState"
 import PlayerControl from "./PlayerControl"
 import ImportPlaylist from "./playlists/ImportPlaylist"
+import AmbienceListPage from "./ambiences/AmbienceListPage"
+import CreateAmbience from "./ambiences/CreateAmbience"
+import EditAmbience from "./ambiences/EditAmbience"
 
 export default function App() {
   const playerState = usePlayerState()
@@ -38,6 +40,15 @@ export default function App() {
             </Route>
             <Route path="/playlist/:id">
               <ViewPlaylist />
+            </Route>
+            <Route path="/ambience/new">
+              <CreateAmbience />
+            </Route>
+            <Route path="/ambience">
+              <AmbienceListPage />
+            </Route>
+            <Route path="/ambience/:id/edit">
+              <EditAmbience />
             </Route>
             <Route path="/edit/:id">
               <EditSong />
