@@ -4,6 +4,7 @@ type PlayerState = {
   playlist: Song[]
   playlistId: string
   nowPlayingIndex: number
+  ambienceId: string
   streamTime: number
   isPaused: boolean
 }

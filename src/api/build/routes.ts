@@ -32,7 +32,7 @@ const models: TsoaRoute.Models = {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "PlayerState": {
         "dataType": "refAlias",
-        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"isPaused":{"dataType":"boolean","required":true},"streamTime":{"dataType":"double","required":true},"nowPlayingIndex":{"dataType":"double","required":true},"playlistId":{"dataType":"string","required":true},"playlist":{"dataType":"array","array":{"dataType":"refAlias","ref":"Song"},"required":true}},"validators":{}},
+        "type": {"dataType":"nestedObjectLiteral","nestedProperties":{"isPaused":{"dataType":"boolean","required":true},"streamTime":{"dataType":"double","required":true},"ambienceId":{"dataType":"string","required":true},"nowPlayingIndex":{"dataType":"double","required":true},"playlistId":{"dataType":"string","required":true},"playlist":{"dataType":"array","array":{"dataType":"refAlias","ref":"Song"},"required":true}},"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Playlist": {

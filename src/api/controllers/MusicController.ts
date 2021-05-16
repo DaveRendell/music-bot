@@ -1,9 +1,7 @@
 import { Controller, Get, Path, Query, Route } from "@tsoa/runtime";
 import PlayerState from "../../common/models/playerState";
-import { getAmbience } from "../database/ambienceRepository";
 import { getSong } from "../database/songRepository";
-import { playAllSongs, shuffleSongs, getPlayerState, playPause, stop, skip } from "../musicService";
-import * as Discord from "../discord"
+import * as musicService from "../musicService";
 
 
 @Route("music")
@@ -16,7 +14,7 @@ export class MusicController extends Controller {
     console.log(`Request to play song ${songId}`)
     const song = await getSong(songId)
     console.log(`Song found: ${JSON.stringify(song, null, 2)}`)
-    await playAllSongs(song.id, playlistId)
+    await musicService.playAllSongs(song.id, playlistId)
     this.setStatus(204)
     return
   }
@@ -25,9 +23,7 @@ export class MusicController extends Controller {
   public async setAmbience(
     @Path() ambienceId: string
   ): Promise<void> {
-    const ambience = await getAmbience(ambienceId)
-    console.log(`Setting ambience to ${ambience.emoji} ${ambience.name}`)
-    await Discord.setAmbience(ambience.url)
+    await musicService.setAmbience(ambienceId)
     return
   }
 
@@ -36,28 +32,28 @@ export class MusicController extends Controller {
     @Path() playlistId: string
   ): Promise<void> {
     console.log("Shuffling songs in playlist " + playlistId)
-    await shuffleSongs(playlistId)    
+    await musicService.shuffleSongs(playlistId)    
     this.setStatus(204)
     return
   }
 
   @Get()
   public async getPlayerState(): Promise<PlayerState> {
-    return getPlayerState()
+    return musicService.getPlayerState()
   }
 
   @Get("playpause")
   public async playPause() {
-    return playPause()
+    return musicService.playPause()
   }
 
   @Get("stop")
   public async stop() {
-    return stop()
+    return musicService.stop()
   }
 
   @Get("skip")
   public async skip() {
-    return skip()
+    return musicService.skip()
   }
 }

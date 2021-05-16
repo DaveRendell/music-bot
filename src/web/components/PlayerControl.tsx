@@ -5,6 +5,7 @@ import "../styles/light.scss"
 import "../styles/sticky-bottom.scss"
 import "../styles/components/player-control.scss"
 import PlayerButton from "./PlayerButton"
+import AmbienceSwitcher from "./AmbienceSwitcher"
 
 type PlayerControlProps = {
   playerState: PlayerState
@@ -33,6 +34,7 @@ export default function PlayerControl({ playerState }: PlayerControlProps) {
       <PlayerButton action={skip} iconClass="forward" />
       <PlayerButton action={stop} iconClass="stop" />
       <span>{song?.name} - {streamTime.minutes}:{streamTime.seconds} / {songTime.minutes}:{songTime.seconds}</span>
+      <AmbienceSwitcher ambienceId={playerState.ambienceId} />
     </div>
   )
 }

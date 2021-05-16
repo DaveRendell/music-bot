@@ -1,12 +1,14 @@
 import PlayerState from "../common/models/playerState"
 import { listSongsForPlaylist } from "./database/songRepository"
-import { disconnect, playSong } from "./discord"
+import * as discordService from "./discord"
 import * as Discord from "discord.js"
+import { getAmbience } from "./database/ambienceRepository"
 
 const  defaultPlayerState: Omit<PlayerState, "streamTime" | "isPaused"> = {
   playlist: [],
   playlistId: "",
-  nowPlayingIndex: 0
+  nowPlayingIndex: 0,
+  ambienceId: ""
 }
 let playerState = defaultPlayerState
 
@@ -21,6 +23,7 @@ export async function playAllSongs(startSongId: string, playlistId: string) {
   }
 
   playerState = {
+    ...playerState,
     playlist: songs,
     playlistId,
     nowPlayingIndex: startIndex
@@ -28,13 +31,14 @@ export async function playAllSongs(startSongId: string, playlistId: string) {
 
   dispatcher?.destroy()
   dispatcher = null
-  dispatcher = await playSong(songs[startIndex].url)
+  dispatcher = await discordService.playSong(songs[startIndex].url)
 }
 
 export async function shuffleSongs(playlistId: string) {
   const songs = await listSongsForPlaylist(playlistId)
   const shuffledPlaylist = shuffleArray(songs)
   playerState = {
+    ...playerState,
     playlist: shuffledPlaylist,
     playlistId,
     nowPlayingIndex: 0
@@ -42,7 +46,16 @@ export async function shuffleSongs(playlistId: string) {
   
   dispatcher?.destroy()
   dispatcher = null
-  dispatcher = await playSong(shuffledPlaylist[0].url)
+  dispatcher = await discordService.playSong(shuffledPlaylist[0].url)
+}
+
+export async function setAmbience(ambienceId: string) {
+  const ambience = await getAmbience(ambienceId)
+  playerState = {
+    ...playerState,
+    ambienceId: ambience.id
+  }
+  discordService.setAmbience(ambience.url)
 }
 
 export async function playPause(): Promise<void> {
@@ -68,7 +81,7 @@ export async function stop(): Promise<void> {
   playerState = defaultPlayerState
   dispatcher?.destroy()
   dispatcher = null
-  disconnect()
+  discordService.disconnect()
 }
 
 export async function getPlayerState(): Promise<PlayerState> {
@@ -98,5 +111,5 @@ export async function onSongFinish() {
 
   dispatcher?.destroy()
   dispatcher = null
-  dispatcher = await playSong(nextSong.url)
+  dispatcher = await discordService.playSong(nextSong.url)
 }
