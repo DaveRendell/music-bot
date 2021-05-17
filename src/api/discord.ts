@@ -1,6 +1,7 @@
 const ytdl = require("ytdl-core-discord")
 const { musicBotToken, ambienceBotToken } = require('../../token.json')
 import * as Discord from "discord.js"
+import NotConnectedError from "./errors/notConnectedError"
 import { onSongFinish } from "./musicService"
 
 let musicConnection: Discord.VoiceConnection | null = null
@@ -34,7 +35,7 @@ export function startUp(callback: () => void): void {
 
 export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
   if (musicConnection === null) {
-    throw new Error("Not currently connected to a voice channel")
+    throw new NotConnectedError()
   }
 
   let dispatcher = musicConnection.play(await ytdl(youtubeUrl), { type: 'opus' })
@@ -49,7 +50,7 @@ export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispat
 
 export async function setAmbience(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
   if (ambienceConnection === null) {
-    throw new Error("Not currently connected to a voice channel")
+    throw new NotConnectedError()
   }
 
   let dispatcher = ambienceConnection.play(await ytdl(youtubeUrl), { type: 'opus' })
