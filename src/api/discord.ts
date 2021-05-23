@@ -62,6 +62,10 @@ export async function setAmbience(youtubeUrl: string): Promise<Discord.StreamDis
   return dispatcher
 }
 
+export async function stopAmbience(): Promise<void> {
+  return ambienceConnection?.dispatcher.destroy()
+} 
+
 export function disconnect(): void {
   musicConnection?.disconnect()
   ambienceConnection?.disconnect()

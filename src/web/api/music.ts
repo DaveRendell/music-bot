@@ -10,6 +10,10 @@ export async function setAmbience(ambienceId: string): Promise<void> {
   return get(`/music/setAmbience/${ambienceId}`)
 }
 
+export async function stopAmbience(): Promise<void> {
+  return get("/music/stopAmbience")
+}
+
 export async function shuffle(playlistId: string): Promise<void> {
   return get("/music/shuffle/" + playlistId)
 }

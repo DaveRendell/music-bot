@@ -23,8 +23,12 @@ export class MusicController extends Controller {
   public async setAmbience(
     @Path() ambienceId: string
   ): Promise<void> {
-    await musicService.setAmbience(ambienceId)
-    return
+    return musicService.setAmbience(ambienceId)
+  }
+
+  @Get("stopAmbience")
+  public async stopAmbience(): Promise<void> {
+    return musicService.stopAmbience()
   }
 
   @Get("shuffle/{playlistId}")

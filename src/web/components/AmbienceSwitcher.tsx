@@ -1,6 +1,6 @@
 import * as React from "react"
 import Ambience from "../../common/models/ambience"
-import { setAmbience } from "../api/music"
+import { setAmbience, stopAmbience } from "../api/music"
 import useAmbiences from "../hooks/useAmbiences"
 import Twemoji from "react-emoji-render"
 import "../styles/max-width.scss"
@@ -23,6 +23,12 @@ export default function AmbienceSwitcher({ ambienceId }: AmbienceSwitcherProps) 
     setSwitcherOpen(false)
   }
 
+  async function turnOffAmbience() {
+    stopAmbience()
+    setId(null)
+    setSwitcherOpen(false)
+  }
+
   function toggleSwitcher(e: React.SyntheticEvent) {
     e.preventDefault()
     setSwitcherOpen(value => !value)
@@ -32,6 +38,11 @@ export default function AmbienceSwitcher({ ambienceId }: AmbienceSwitcherProps) 
     <div className="ambience-switcher">
       { switcherOpen && (
         <div className="ambience-selector">
+          <button 
+              className="max-width"
+              onClick={turnOffAmbience}>
+              <Twemoji text="❌ Off" />
+            </button>
           {ambiences.map(ambience => (
             <div key={ambience.id}>
               <button 
@@ -47,12 +58,4 @@ export default function AmbienceSwitcher({ ambienceId }: AmbienceSwitcherProps) 
       </button>
     </div>
   )
-
-  
-  // return (
-  //   <select value={id} onChange={onChange} className="ambience-switcher">
-  //     {ambiences.map(ambience =>
-  //       <option value={ambience.id}>{ambience.emoji} {ambience.name}</option>)}
-  //   </select>
-  // )
 }

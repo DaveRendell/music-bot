@@ -58,6 +58,10 @@ export async function setAmbience(ambienceId: string) {
   discordService.setAmbience(ambience.url)
 }
 
+export async function stopAmbience(): Promise<void> {
+  return discordService.stopAmbience()
+}
+
 export async function playPause(): Promise<void> {
   if (!dispatcher) {
     return
