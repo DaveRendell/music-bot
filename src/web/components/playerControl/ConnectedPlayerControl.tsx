@@ -1,8 +1,6 @@
 import * as React from "react"
 import PlayerState from "../../../common/models/playerState"
-import playerState from "../../../common/models/playerState"
-import song from "../../../common/models/song"
-import { playPause, skip } from "../../api/music"
+import { playPause, skip, stop } from "../../api/music"
 import AmbienceSwitcher from "../AmbienceSwitcher"
 import PlayerButton from "../PlayerButton"
 

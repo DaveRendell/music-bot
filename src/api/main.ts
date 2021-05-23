@@ -4,13 +4,18 @@ import * as cors from "cors"
 import * as path from "path"
 import { RegisterRoutes } from "./build/routes"
 import { ValidateError } from "tsoa"
-import { startUp } from "./discord"
+import { startUp as startUpDiscord} from "./discord"
+import * as http from "http"
+import { setUpWebsocket } from "./websocket"
 
 const api = express()
 const port = 3000
 
 api.use(bodyParser.json())
-api.use(cors())
+api.use(cors({
+  origin: true,
+  credentials: true
+}));
 
 RegisterRoutes(api)
 
@@ -46,8 +51,12 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-startUp(() => {
-	api.listen(port, () => {
+startUpDiscord(() => {
+  const server = http.createServer(api)
+
+  setUpWebsocket(server)
+
+	server.listen(port, () => {
     console.log(`API & Discord running on port ${port}`)
   })
 })

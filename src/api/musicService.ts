@@ -3,6 +3,7 @@ import { listSongsForPlaylist } from "./database/songRepository"
 import * as discordService from "./discord"
 import * as Discord from "discord.js"
 import { getAmbience } from "./database/ambienceRepository"
+import { broadcastMessage } from "./websocket"
 
 const  defaultPlayerState: Omit<PlayerState, "streamTime" | "isPaused" | "isConnected"> = {
   playlist: [],
@@ -14,6 +15,16 @@ let playerState = defaultPlayerState
 
 let dispatcher: Discord.StreamDispatcher | null = null
 
+function updatePlayerState(newFields: Partial<PlayerState>) {
+  playerState = {
+    ...playerState,
+    ...newFields
+  }
+  getPlayerState()
+    .then(JSON.stringify)
+    .then(broadcastMessage)
+}
+
 export async function playAllSongs(startSongId: string, playlistId: string) {
   const songs = await listSongsForPlaylist(playlistId)
   const startIndex = songs.findIndex(song => song.id === startSongId)
@@ -22,12 +33,11 @@ export async function playAllSongs(startSongId: string, playlistId: string) {
     throw new Error(`Song with id ${startSongId} not found`)
   }
 
-  playerState = {
-    ...playerState,
+  updatePlayerState({
     playlist: songs,
     playlistId,
     nowPlayingIndex: startIndex
-  }
+  })
 
   dispatcher?.destroy()
   dispatcher = null
@@ -37,12 +47,11 @@ export async function playAllSongs(startSongId: string, playlistId: string) {
 export async function shuffleSongs(playlistId: string) {
   const songs = await listSongsForPlaylist(playlistId)
   const shuffledPlaylist = shuffleArray(songs)
-  playerState = {
-    ...playerState,
+  updatePlayerState({
     playlist: shuffledPlaylist,
     playlistId,
     nowPlayingIndex: 0
-  }
+  })
   
   dispatcher?.destroy()
   dispatcher = null
@@ -51,14 +60,16 @@ export async function shuffleSongs(playlistId: string) {
 
 export async function setAmbience(ambienceId: string) {
   const ambience = await getAmbience(ambienceId)
-  playerState = {
-    ...playerState,
+  updatePlayerState({
     ambienceId: ambience.id
-  }
+  })
   discordService.setAmbience(ambience.url)
 }
 
 export async function stopAmbience(): Promise<void> {
+  updatePlayerState({
+    ambienceId: undefined
+  })
   return discordService.stopAmbience()
 }
 
@@ -82,7 +93,7 @@ export function skip(): Promise<void> {
 }
 
 export async function stop(): Promise<void> {
-  playerState = defaultPlayerState
+  updatePlayerState(defaultPlayerState)
   dispatcher?.destroy()
   dispatcher = null
   discordService.disconnect()
@@ -112,7 +123,7 @@ export async function onSongFinish() {
   let newNowPlayingIndex = (playerState.nowPlayingIndex + 1) % playerState.playlist.length
   let nextSong = playerState.playlist[newNowPlayingIndex]
   console.log(`Playing song: ${JSON.stringify(nextSong, null, 2)}`)
-  playerState = { ...playerState, nowPlayingIndex: newNowPlayingIndex }
+  updatePlayerState({ nowPlayingIndex: newNowPlayingIndex })
 
   dispatcher?.destroy()
   dispatcher = null

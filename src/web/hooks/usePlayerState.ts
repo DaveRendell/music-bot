@@ -1,24 +1,19 @@
 import * as React from "react"
 import PlayerState from "../../common/models/playerState";
-import { getPlayerState } from "../api/music"
 
 export default function usePlayerState(): PlayerState | null {
   const [playerState, setPlayerState] = React.useState<PlayerState | null>(null)
-  const interval = 500
 
   React.useEffect(() => {
-    let killed = false
+    const ws = new WebSocket('ws://localhost:3000')
 
-    async function poll() {
-      if (killed) return
-      await getPlayerState().then(setPlayerState)
-      setTimeout(poll, interval)
+    ws.onmessage = (event: MessageEvent<string>) => {
+      console.info("received message", event)
+      setPlayerState(JSON.parse(event.data))
     }
 
-    poll()
-
-    return () => { killed = true }
-  }, [])
+    return () => ws.close()
+  }, [])  
 
   return playerState
 }
