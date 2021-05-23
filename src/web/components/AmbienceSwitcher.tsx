@@ -4,6 +4,7 @@ import { setAmbience, stopAmbience } from "../api/music"
 import useAmbiences from "../hooks/useAmbiences"
 import Twemoji from "react-emoji-render"
 import "../styles/max-width.scss"
+import "../styles/hang-right.scss"
 
 type AmbienceSwitcherProps = {
   ambienceId: string
@@ -37,7 +38,7 @@ export default function AmbienceSwitcher({ ambienceId }: AmbienceSwitcherProps) 
   return (
     <div className="ambience-switcher">
       { switcherOpen && (
-        <div className="ambience-selector">
+        <div className="floating-selector">
           <button 
               className="max-width"
               onClick={turnOffAmbience}>

@@ -62,6 +62,10 @@ export async function setAmbience(youtubeUrl: string): Promise<Discord.StreamDis
   return dispatcher
 }
 
+export function isConnected(): boolean {
+  return !!musicConnection?.channel
+}
+
 export async function stopAmbience(): Promise<void> {
   return ambienceConnection?.dispatcher.destroy()
 } 

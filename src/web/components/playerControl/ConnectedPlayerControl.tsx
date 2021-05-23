@@ -1,13 +1,12 @@
 import * as React from "react"
-import PlayerState from "../../common/models/playerState"
-import { playPause, skip, stop } from "../api/music"
-import "../styles/light.scss"
-import "../styles/sticky-bottom.scss"
-import "../styles/components/player-control.scss"
-import PlayerButton from "./PlayerButton"
-import AmbienceSwitcher from "./AmbienceSwitcher"
+import PlayerState from "../../../common/models/playerState"
+import playerState from "../../../common/models/playerState"
+import song from "../../../common/models/song"
+import { playPause, skip } from "../../api/music"
+import AmbienceSwitcher from "../AmbienceSwitcher"
+import PlayerButton from "../PlayerButton"
 
-type PlayerControlProps = {
+type ConnectedPlayerControlProps = {
   playerState: PlayerState
 }
 
@@ -18,18 +17,14 @@ function minutesAndSeconds(length: number): { minutes: string, seconds: string }
   }
 }
 
-export default function PlayerControl({ playerState }: PlayerControlProps) {
-  if (!playerState) {
-    return <></>
-  }
-
+export default function ConnectedPlayerControl({ playerState }: ConnectedPlayerControlProps) {
   const song = playerState.playlist[playerState.nowPlayingIndex]
 
   const streamTime = minutesAndSeconds(Math.floor(playerState.streamTime / 1000))
   const songTime = minutesAndSeconds(song?.length || 0)
-
+  
   return (
-    <div className="player-control | light sticky-bottom">
+    <div>
       <PlayerButton action={playPause} iconClass={playerState.isPaused ? "play" : "pause"} />
       <PlayerButton action={skip} iconClass="forward" />
       <PlayerButton action={stop} iconClass="stop" />

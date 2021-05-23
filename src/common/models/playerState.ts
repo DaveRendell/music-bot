@@ -7,6 +7,7 @@ type PlayerState = {
   ambienceId: string
   streamTime: number
   isPaused: boolean
+  isConnected: boolean
 }
 
 export default PlayerState;

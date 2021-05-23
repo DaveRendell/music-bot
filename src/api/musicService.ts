@@ -4,11 +4,11 @@ import * as discordService from "./discord"
 import * as Discord from "discord.js"
 import { getAmbience } from "./database/ambienceRepository"
 
-const  defaultPlayerState: Omit<PlayerState, "streamTime" | "isPaused"> = {
+const  defaultPlayerState: Omit<PlayerState, "streamTime" | "isPaused" | "isConnected"> = {
   playlist: [],
   playlistId: "",
   nowPlayingIndex: 0,
-  ambienceId: ""
+  ambienceId: "",
 }
 let playerState = defaultPlayerState
 
@@ -93,7 +93,8 @@ export async function getPlayerState(): Promise<PlayerState> {
   return {
     ...playerState,
     streamTime: dispatcher ? dispatcher.streamTime : 0,
-    isPaused: dispatcher ? dispatcher.paused : true
+    isPaused: dispatcher ? dispatcher.paused : true,
+    isConnected: discordService.isConnected()
   }
 }
 
