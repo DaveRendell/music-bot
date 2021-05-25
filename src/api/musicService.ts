@@ -20,6 +20,10 @@ function updatePlayerState(newFields: Partial<PlayerState>) {
     ...playerState,
     ...newFields
   }
+  broadcastPlayerState()
+}
+
+export function broadcastPlayerState() {
   getPlayerState()
     .then(JSON.stringify)
     .then(broadcastMessage)
@@ -47,15 +51,16 @@ export async function playAllSongs(startSongId: string, playlistId: string) {
 export async function shuffleSongs(playlistId: string) {
   const songs = await listSongsForPlaylist(playlistId)
   const shuffledPlaylist = shuffleArray(songs)
+  
+  dispatcher?.destroy()
+  dispatcher = null
+  dispatcher = await discordService.playSong(shuffledPlaylist[0].url)
+
   updatePlayerState({
     playlist: shuffledPlaylist,
     playlistId,
     nowPlayingIndex: 0
   })
-  
-  dispatcher?.destroy()
-  dispatcher = null
-  dispatcher = await discordService.playSong(shuffledPlaylist[0].url)
 }
 
 export async function setAmbience(ambienceId: string) {
@@ -86,6 +91,7 @@ export async function playPause(): Promise<void> {
   } else {
     dispatcher.pause()
   }
+  broadcastPlayerState()
 }
 
 export function skip(): Promise<void> {
@@ -93,14 +99,14 @@ export function skip(): Promise<void> {
 }
 
 export async function stop(): Promise<void> {
-  updatePlayerState(defaultPlayerState)
   dispatcher?.destroy()
   dispatcher = null
   discordService.disconnect()
+  setTimeout(() => updatePlayerState(defaultPlayerState), 250)
 }
 
 export async function getPlayerState(): Promise<PlayerState> {
-
+  console.log("isCOnnected?:", discordService.isConnected())
   return {
     ...playerState,
     streamTime: dispatcher ? dispatcher.streamTime : 0,

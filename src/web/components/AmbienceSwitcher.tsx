@@ -36,7 +36,7 @@ export default function AmbienceSwitcher({ ambienceId }: AmbienceSwitcherProps) 
   }
 
   return (
-    <div className="ambience-switcher">
+    <div className="ambience-switcher hang-right">
       { switcherOpen && (
         <div className="floating-selector">
           <button 

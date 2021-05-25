@@ -2,7 +2,7 @@ const ytdl = require("ytdl-core-discord")
 const { musicBotToken, ambienceBotToken } = require('../../token.json')
 import * as Discord from "discord.js"
 import NotConnectedError from "./errors/notConnectedError"
-import { onSongFinish } from "./musicService"
+import { broadcastPlayerState, onSongFinish } from "./musicService"
 
 let musicConnection: Discord.VoiceConnection | null = null
 let ambienceConnection: Discord.VoiceConnection | null = null
@@ -23,6 +23,7 @@ export function startUp(callback: () => void): void {
           (ambienceClient.channels.cache.get(channelId) as Discord.VoiceChannel).join()
         ]);
         message.reply(`Connected to ${message.member.voice.channel.name}.`)
+        broadcastPlayerState()
       } else {
         message.reply('You need to join a voice channel first!');
       }
@@ -63,7 +64,7 @@ export async function setAmbience(youtubeUrl: string): Promise<Discord.StreamDis
 }
 
 export function isConnected(): boolean {
-  return !!musicConnection?.channel
+  return !!musicConnection
 }
 
 export async function stopAmbience(): Promise<void> {
@@ -73,4 +74,6 @@ export async function stopAmbience(): Promise<void> {
 export function disconnect(): void {
   musicConnection?.disconnect()
   ambienceConnection?.disconnect()
+  musicConnection = null
+  ambienceConnection = null
 }
