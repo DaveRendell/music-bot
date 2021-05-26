@@ -106,7 +106,6 @@ export async function stop(): Promise<void> {
 }
 
 export async function getPlayerState(): Promise<PlayerState> {
-  console.log("isCOnnected?:", discordService.isConnected())
   return {
     ...playerState,
     streamTime: dispatcher ? dispatcher.streamTime : 0,
