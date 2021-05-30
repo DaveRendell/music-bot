@@ -34,8 +34,20 @@ export function startUp(callback: () => void): void {
   ambienceClient.login(ambienceBotToken)
 }
 
-export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
-  if (musicConnection === null) {
+export function playSong(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
+  return playAudio(musicConnection, youtubeUrl, onSongFinish)
+}
+
+export function setAmbience(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
+  return playAudio(ambienceConnection, youtubeUrl, () => setAmbience(youtubeUrl))
+}
+
+async function playAudio(
+  connection: Discord.VoiceConnection | null,
+  youtubeUrl: string,
+  onFinish: () => Promise<any>
+): Promise<Discord.StreamDispatcher> {
+  if (connection === null) {
     throw new NotConnectedError()
   }
 
@@ -44,27 +56,13 @@ export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispat
     stream = await ytdl(youtubeUrl)
   } catch (e) {
     console.error(`Error playing song at URL ${youtubeUrl}\n`, e)
-    return onSongFinish()
+    return onFinish()
   }
 
-  let dispatcher = musicConnection.play(stream, { type: 'opus' })
+  let dispatcher = connection.play(stream, { type: 'opus' })
 
   dispatcher.on('finish', () => {
-    onSongFinish()
-  })
-
-  return dispatcher
-}
-
-export async function setAmbience(youtubeUrl: string): Promise<Discord.StreamDispatcher> {
-  if (ambienceConnection === null) {
-    throw new NotConnectedError()
-  }
-
-  let dispatcher = ambienceConnection.play(await ytdl(youtubeUrl), { type: 'opus' })
-
-  dispatcher.on('finish', () => {
-    setAmbience(youtubeUrl)
+    onFinish()
   })
 
   return dispatcher

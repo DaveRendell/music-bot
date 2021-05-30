@@ -65,6 +65,7 @@ export async function shuffleSongs(playlistId: string) {
 
 export async function setAmbience(ambienceId: string) {
   const ambience = await getAmbience(ambienceId)
+  console.log(`Setting ambience to ${ambience.name}`)
   updatePlayerState({
     ambienceId: ambience.id
   })
@@ -72,6 +73,7 @@ export async function setAmbience(ambienceId: string) {
 }
 
 export async function stopAmbience(): Promise<void> {
+  console.log("Turning off ambience")
   updatePlayerState({
     ambienceId: undefined
   })
