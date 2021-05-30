@@ -1,6 +1,7 @@
 {
   "watch": [
-    "src/"
+    "src/api",
+    "src/common"
   ],
   "exec": "ts-node src/api/main.ts",
   "ext": "ts"

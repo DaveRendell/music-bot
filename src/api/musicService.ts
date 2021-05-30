@@ -127,10 +127,11 @@ export async function onSongFinish() {
   // Plays the next song in the list
   let newNowPlayingIndex = (playerState.nowPlayingIndex + 1) % playerState.playlist.length
   let nextSong = playerState.playlist[newNowPlayingIndex]
-  console.log(`Playing song: ${JSON.stringify(nextSong, null, 2)}`)
-  updatePlayerState({ nowPlayingIndex: newNowPlayingIndex })
-
+  console.log(`Playing: ${nextSong.name}`)
+  
   dispatcher?.destroy()
   dispatcher = null
   dispatcher = await discordService.playSong(nextSong.url)
+  
+  updatePlayerState({ nowPlayingIndex: newNowPlayingIndex })
 }

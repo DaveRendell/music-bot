@@ -17,12 +17,11 @@ function minutesAndSeconds(length: number): { minutes: string, seconds: string }
 const INTERVAL = 250
 
 export function SongProgressBar({ songName, isPaused, playTime, totalTime }: SongProgressBarProps) {
-  console.log({playTime})
   const [currentTime, setCurrentTime] = React.useState(playTime)
 
   React.useEffect(() => {
     setCurrentTime(playTime)
-  }, [playTime])
+  }, [songName, isPaused, playTime, totalTime])
 
   React.useEffect(() => {
     if (isPaused) { return }

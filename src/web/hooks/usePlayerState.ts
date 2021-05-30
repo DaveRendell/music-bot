@@ -8,7 +8,6 @@ export default function usePlayerState(): PlayerState | null {
     const ws = new WebSocket('ws://localhost:3000')
 
     ws.onmessage = (event: MessageEvent<string>) => {
-      console.info("received message", event)
       setPlayerState(JSON.parse(event.data))
     }
 

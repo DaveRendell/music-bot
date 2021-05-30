@@ -42,7 +42,6 @@ export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispat
   let dispatcher = musicConnection.play(await ytdl(youtubeUrl), { type: 'opus' })
 
   dispatcher.on('finish', () => {
-    console.log(`Finished playing song at ${youtubeUrl}`)
     onSongFinish()
   })
 

@@ -46,7 +46,7 @@
     "uuid": "^3.4.0",
     "ws": "^7.4.5",
     "youtube-playlist": "^1.0.4",
-    "ytdl-core": "^4.5.0",
+    "ytdl-core": "^4.8.2",
     "ytdl-core-discord": "^1.2.5",
     "ytpl": "^2.2.0"
   },
