@@ -1,6 +1,8 @@
 const ytdl = require("ytdl-core-discord")
 const { musicBotToken, ambienceBotToken } = require('../../token.json')
 import * as Discord from "discord.js"
+import DiscordChannel from "../common/models/discordChannel"
+import DiscordServer from "../common/models/discordServer"
 import NotConnectedError from "./errors/notConnectedError"
 import { broadcastPlayerState, onSongFinish } from "./musicService"
 
@@ -81,4 +83,40 @@ export function disconnect(): void {
   ambienceConnection?.disconnect()
   musicConnection = null
   ambienceConnection = null
+}
+
+export async function listServers(): Promise<DiscordServer[]> {
+  const client = new Discord.Client()
+  await client.login(musicBotToken)
+
+  const guilds = await Promise.all(Array.from(client.guilds.cache.values()).map(g => g.fetch()))
+
+  return guilds.map(guild => {
+    guild.fetch()
+    return {
+      id: guild.id,
+      name: guild.name,
+      channels: getChannelsFromGuild(guild)
+    }
+  })
+}
+
+function getChannelsFromGuild(guild: Discord.Guild): DiscordChannel[] {
+  const discordChannels = Array.from(guild.channels.cache.values())
+
+  return discordChannels
+    .filter(isVoiceChannel)
+    .map(voiceChannel => {
+      return {
+        id: voiceChannel.id,
+        name: voiceChannel.name,
+        activeUsers: voiceChannel.members.size
+      }
+    })
+}
+
+function isVoiceChannel(
+  discordChannel: Discord.Channel
+): discordChannel is Discord.VoiceChannel {
+  return discordChannel.type == "voice"
 }
