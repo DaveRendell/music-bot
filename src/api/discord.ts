@@ -23,7 +23,7 @@ export function startUp(callback: () => void): void {
           (ambienceClient.channels.cache.get(channelId) as Discord.VoiceChannel).join()
         ]);
         message.reply(`Connected to ${message.member.voice.channel.name}.`)
-        broadcastPlayerState()
+        setTimeout(broadcastPlayerState, 250)
       } else {
         message.reply('You need to join a voice channel first!');
       }
