@@ -18,8 +18,6 @@ export default function HomePage() {
     if (loaded) {
         return (
             <div>
-                <h1>🎵 Music Bot</h1>
-                <ServerList />
                 <LinkButton to="/playlist/new" iconClass="plus" text="Add playlist" />
                 <LinkButton to="/playlist/import" iconClass="arrow-down" text="Import playlist" />
                 <LinkButton to="/ambience" iconClass="cloud-rain" text="Manage ambiences" />

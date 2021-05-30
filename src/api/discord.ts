@@ -120,3 +120,22 @@ function isVoiceChannel(
 ): discordChannel is Discord.VoiceChannel {
   return discordChannel.type == "voice"
 }
+
+export async function joinChannel(channelId: string): Promise<void> {
+  console.log("Joining channel with id", channelId)
+  let musicClient: Discord.Client;
+  let ambienceClient: Discord.Client;
+  if (musicConnection) {musicClient = musicConnection.client} else {
+    musicClient = new Discord.Client()
+    await musicClient.login(musicBotToken)
+  }
+  if (ambienceConnection) {ambienceClient = ambienceConnection.client} else {
+    ambienceClient = new Discord.Client()
+    await ambienceClient.login(ambienceBotToken)
+  }
+
+  musicConnection = await (musicClient.channels.cache.get(channelId) as Discord.VoiceChannel).join()
+  ambienceConnection = await (ambienceClient.channels.cache.get(channelId) as Discord.VoiceChannel).join()
+
+  broadcastPlayerState()
+}

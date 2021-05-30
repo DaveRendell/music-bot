@@ -1,6 +1,7 @@
 import * as React from "react"
 import DiscordServer from "../../common/models/discordServer"
-import { listServers } from "../api/connection"
+import { joinChannel, listServers } from "../api/connection"
+import PlayerButton from "./PlayerButton"
 
 export default function ServerList() {
   const [serverList, setServerList] = React.useState<DiscordServer[] | null>(null)
@@ -24,7 +25,10 @@ export default function ServerList() {
                 server.channels
                   .sort((c1, c2) => c2.activeUsers - c1.activeUsers)
                   .map(channel => (
-                    <p key={channel.id}>{channel.name} - {channel.activeUsers} active users</p>
+                    <p key={channel.id}>
+                      <PlayerButton text="Join" action={() => joinChannel(channel.id)} />
+                      <span>{channel.name} - {channel.activeUsers} active users</span>
+                    </p>
                   ))
               }
             </div>
