@@ -94,8 +94,8 @@ export async function playPause(): Promise<void> {
   broadcastPlayerState()
 }
 
-export function skip(): Promise<void> {
-  return onSongFinish()
+export async function skip(): Promise<void> {
+  await onSongFinish()
 }
 
 export async function stop(): Promise<void> {
@@ -123,15 +123,18 @@ function shuffleArray<T>(input: T[]) {
   return array
 }
 
-export async function onSongFinish() {
+export async function onSongFinish(): Promise<Discord.StreamDispatcher> {
   // Plays the next song in the list
   let newNowPlayingIndex = (playerState.nowPlayingIndex + 1) % playerState.playlist.length
   let nextSong = playerState.playlist[newNowPlayingIndex]
   console.log(`Playing: ${nextSong.name}`)
   
+  updatePlayerState({ nowPlayingIndex: newNowPlayingIndex })
   dispatcher?.destroy()
   dispatcher = null
   dispatcher = await discordService.playSong(nextSong.url)
+
+  broadcastPlayerState()
   
-  updatePlayerState({ nowPlayingIndex: newNowPlayingIndex })
+  return dispatcher
 }

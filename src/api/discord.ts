@@ -39,7 +39,15 @@ export async function playSong(youtubeUrl: string): Promise<Discord.StreamDispat
     throw new NotConnectedError()
   }
 
-  let dispatcher = musicConnection.play(await ytdl(youtubeUrl), { type: 'opus' })
+  let stream;
+  try {
+    stream = await ytdl(youtubeUrl)
+  } catch (e) {
+    console.error(`Error playing song at URL ${youtubeUrl}\n`, e)
+    return onSongFinish()
+  }
+
+  let dispatcher = musicConnection.play(stream, { type: 'opus' })
 
   dispatcher.on('finish', () => {
     onSongFinish()
